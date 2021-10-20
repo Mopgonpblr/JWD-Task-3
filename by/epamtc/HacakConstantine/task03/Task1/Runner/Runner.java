@@ -4,14 +4,9 @@ import by.epamtc.HacakConstantine.task03.Task1.Model.Array;
 import by.epamtc.HacakConstantine.task03.Task1.Logic.Logic;
 
 import java.io.FileNotFoundException;
+import by.epamtc.HacakConstantine.task03.Task1.Logic.FindMaxMin.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 10/18/21
- * Time: 8:54 AM
- * To change this template use File | Settings | File Templates.
- */
+
 public class Runner {
     public static void main(String[] args) throws FileNotFoundException {
         Array a = Logic.createRandomArray(10);
@@ -20,7 +15,9 @@ public class Runner {
         Logic.bubbleSort(a);
         System.out.println("Sorted random array, bubble sort:" + a);
 
-        Array b = Logic.createFileArray("C:\\\\Users\\\\Asus\\\\Desktop\\\\test.txt");
+        //Array b = Logic.createFileArray("C:\\\\Users\\\\Asus\\\\Desktop\\\\test.txt");
+        Array b = Logic.createFileArray("C:\\Documents and Settings\\Administrator\\Desktop\\\\test.txt");
+
         System.out.println("File array: " + b);
 
         Logic.selectionSort(b);
@@ -34,17 +31,15 @@ public class Runner {
 
 
         int i = a.getValue()[3];
-        int searchResult = Logic.binarySearch(a, i);
-        if (searchResult != -1)
-            System.out.println("a[" + searchResult + "] = " + i);
-        else
-            System.out.println("Not found");
+        System.out.println("Binary search: " + Logic.binarySearch(a, i));
 
-        System.out.println("MAX: " + Logic.findMax(a));
-        System.out.println("MIN: " + Logic.findMin(a));
+        System.out.println("MAX: " + Logic.findMaxMin(a, new FindMax()));
+        System.out.println("MIN: " + Logic.findMaxMin(a, new FindMin()));
 
-        System.out.println("Prime numbers: " + Logic.findSimpleNumbers(a));
+        System.out.println("Prime numbers: " + Logic.findPrimeNumbers(a));
 
-        System.out.println("Three digit numbers without repeats: " + Logic.findThreeDigitNumbers(a));
+        System.out.println("Three digit numbers without digit repeats: " + Logic.findThreeDigitNumbers(a));
+
+        System.out.println("Fibonacci numbers: "+Logic.findFibonacciNumbers(b));
     }
 }

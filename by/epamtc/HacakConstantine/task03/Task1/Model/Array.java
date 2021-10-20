@@ -7,13 +7,12 @@ package by.epamtc.HacakConstantine.task03.Task1.Model;
  * Time: 8:50 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Array {
+public class Array  {
     private int[] value;
 
     public Array(int[] value) {
         this.value = new int[value.length];
-        for (int i=0;i<value.length;i++)
-            this.value[i] = value[i];
+        System.arraycopy(value, 0, this.value, 0, value.length);
     }
 
     public Array(String s) throws NumberFormatException {
@@ -36,16 +35,13 @@ public class Array {
         this.value = arr;
     }
 
-
-
     public int[] getValue() {
         return value;
     }
 
     public void setValue(int[] value) {
         this.value = new int[value.length];
-        for (int i=0;i<value.length;i++)
-            this.value[i] = value[i];
+        System.arraycopy(value, 0, this.value, 0, value.length);
     }
 
     @Override
@@ -54,7 +50,7 @@ public class Array {
             return "null";
         if (this.value.length == 0)
             return "[]";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append('[');
         for (int i = 0; ; i++) {
             sb.append(this.value[i]);

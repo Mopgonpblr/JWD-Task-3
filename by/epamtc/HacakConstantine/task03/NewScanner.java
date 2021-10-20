@@ -55,13 +55,14 @@ public class NewScanner {
         return seconds;
     }
 
-    public static String scanFile(String path) throws FileNotFoundException {
+    public static String scanFile(String path) throws FileNotFoundException{
         StringBuilder info= new StringBuilder();
         File file = new File(path);
         Scanner sc = new Scanner(file);
 
         while (sc.hasNextLine())
             info.append("\n").append(sc.nextLine());
+
         return info.toString();
     }
 

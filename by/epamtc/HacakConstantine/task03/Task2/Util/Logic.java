@@ -1,84 +1,37 @@
 package by.epamtc.HacakConstantine.task03.Task2.Util;
 
+import by.epamtc.HacakConstantine.task03.Task2.Util.Sorting.*;
 
 public class Logic {
 
-    private static void swap(int[][] array, int i, int j) {
-        int[] temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+    public static void swap(int[][] arr, int i, int j) {
+        int[] temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 
-    public static int sumOfElements(int[] array) {
+    public static int sumOfElements(int[] arr) {
         int a = 0;
-        for (int b : array) {
+        for (int b : arr) {
             a += b;
         }
         return a;
     }
 
-    public static int findMinMax(int[] array, Condition cond) {
-        int minMax = array[0];
-        for (int i = 0; i < array.length; i++) {
-            switch (cond) {
-                case MAX:
-                    if (array[i] > minMax)
-                        minMax = array[i];
-                    break;
-                case MIN:
-                    if (array[i] < minMax)
-                        minMax = array[i];
-                    break;
-                default:
-                    return -1;
-            }
+    public static int findMinMax(int[] arr, Find f) {
+        int minMax = arr[0];
+        for (int a : arr) {
+            minMax = f.find(a, minMax);
         }
         return minMax;
     }
 
-    public static int[][] sort(int[][] array, Direction dir, Condition cond) {
-        boolean isError = false;
-        int a = 0, b = 0;
-        for (int i = 0; i < array.length - 1; ) {
-            switch (cond) {
-                case SUM:
-                    a = sumOfElements(array[i]);
-                    b = sumOfElements(array[i + 1]);
-                    break;
-                case MAX:
-                    a = findMinMax(array[i], Condition.MAX);
-                    b = findMinMax(array[i + 1], Condition.MAX);
-                    break;
-                case MIN:
-                    a = findMinMax(array[i], Condition.MIN);
-                    b = findMinMax(array[i + 1], Condition.MIN);
-                    break;
-                default:
-                    isError = true;
-                    break;
-            }
-            if (isError)
-                return null;
-            switch (dir) {
-                case INCREASE:
-                    if (a > b) {
-                        swap(array, i, i + 1);
-                        i = 0;
-                    } else
-                        i++;
-                    break;
-                case DECREASE:
-                    if (a < b) {
-                        swap(array, i, i + 1);
-                        i = 0;
-                    } else
-                        i++;
-                    break;
-                default:
-                    return null;
-
-            }
+    public static void sort(int[][] arr, Direction d, Condition cond) {
+        int a, b;
+        for (int i = 0; i < arr.length - 1; ) {
+            a = cond.process(arr[i]);
+            b = cond.process(arr[i + 1]);
+            i = d.process(arr, a, b, i);
         }
-        return array;
     }
 }
