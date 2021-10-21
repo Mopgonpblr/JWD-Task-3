@@ -2,83 +2,63 @@ package by.epamtc.HacakConstantine.task03.Task3.Logic;
 
 public class Logic {
 
-    public static String replaceSymbol(String string, int k, char symbol) {
-        StringBuilder sb = new StringBuilder(string);
-        for (int i = 0, j = 0; i < sb.length(); i++, j++) {
-            if (j == k && Character.isAlphabetic(sb.charAt(i)))
-                sb.replace(i, i + 1, String.valueOf(symbol));
-            if (sb.charAt(i) == ' ')
+    public static String replaceSymbol(String s, int k, char symbol) {
+        for (int i = 0, j = 0; i < s.length() - 1; i++, j++) {
+            if (j == k && s.substring(i, i + 1).matches("[a-zA-Z]")) {
+                s = s.substring(0, i) + s.substring(i, s.length()).replaceFirst("[a-zA-Z]", String.valueOf(symbol));
+            }
+            if (s.substring(i, i + 1).matches("\\W")) {
                 j = 0;
+            }
         }
-        return sb.toString();
+        return s;
     }
 
-    public static String replaceA(String string) {
-        StringBuilder sb = new StringBuilder(string);
-        for (int i = 0, j = 0; i < sb.length() - 2; i++, j++) {
-            if (sb.charAt(i) == 'P' && sb.charAt(i + 1) == 'A' && Character.isAlphabetic(sb.charAt(i + 2)))
-                sb.replace(i + 1, i + 2, "O");
-            if (sb.charAt(i) == ' ')
-                j = 0;
+    public static String replaceA(String s) {
+        for (int i = 0; i < s.length() - 2; i++) {
+            if (s.substring(i, i + 3).matches("PA\\w"))
+                s = s.substring(0, i + 1) + s.substring(i + 1, s.length()).replaceFirst("A", "O");
         }
-        return sb.toString();
+        return s;
     }
 
-    public static String replaceWord(String string, int length, String replacement) {
-        StringBuilder sb = new StringBuilder(string);
-        for (int i = 0, j = 0; i < sb.length(); i++, j++) {
-            if (sb.charAt(i) == ' ') {
-                if (j == length && Character.isAlphabetic(sb.charAt(i - 1))) {
-                    sb.delete(i - length, i);
-                    sb.insert(i - length, replacement);
-                }
+    public static String replaceWord(String s, int length, String replacement) {
+        for (int i = 0, j = 0; i < s.length() - 2; i++, j++) {
+            if (j == length && s.substring(i, i + 2).matches("\\w\\W")) {
+                s = s.substring(0, i + 1 - length) + replacement + s.substring(i + 1, s.length());
+            }
+            while (s.substring(i + 1, i + 2).matches("\\W")) {
                 i++;
                 j = 0;
             }
         }
-        return sb.toString();
+        return s;
     }
 
-    public static String deleteNAC(String string) {
-        StringBuilder sb = new StringBuilder(string);
-        for (int i = 0; i < sb.length(); ) {
-            if (sb.charAt(i) != ' ' && !Character.isLetter(sb.charAt(i))) {
-                sb.delete(i, i + 1);
-                if (Character.isLetter(sb.charAt(i)) && Character.isLetter(sb.charAt(i + 1)))
-                    sb.insert(i, " ");
+    public static String deleteNAC(String s) {
+        for (int i = 0; i < s.length(); ) {
+            if (s.substring(i, i + 1).matches("[\\S&&[\\W |0-9]]")) {
+                s = s.substring(0, i) + s.substring(i + 1, s.length());
+                if (s.substring(i, i + 2).matches("[a-zA-Z]{2}"))
+                    s = s.substring(0, i) + " " + s.substring(i, s.length());
             } else
                 i++;
         }
-        return sb.toString();
+        return s;
     }
 
-    public static String deleteConsonantWords(String string, int length) {
-        StringBuilder sb = new StringBuilder(string);
-        for (int i = 0, j = 0; i < sb.length() - 2; i++, j++) {
-            if (sb.charAt(i) == ' ') {
-                if (j == length && Character.isAlphabetic(sb.charAt(i - 1))) {
-                    switch (sb.charAt(i - length)) {
-                        case 'a':
-                        case 'e':
-                        case 'i':
-                        case 'o':
-                        case 'u':
-                        case 'A':
-                        case 'E':
-                        case 'I':
-                        case 'O':
-                        case 'U':
-                            break;
-                        default:
-                            sb.delete(i - length, i + 1);
-                            break;
-                    }
-
+    public static String deleteConsonantWords(String s, int length) {
+        for (int i = 0, j = 0; i < s.length() - 2; i++, j++) {
+            if (s.substring(i, i + 2).matches("\\w\\W")) {
+                if (j == length && s.substring(i + 1 - length, i + 2 - length).matches("[^aeiouAEIOU]")) {
+                    s = s.substring(0, i - length) + s.substring(i + 1, s.length());
+                    i = i - length;
                 }
-                i++;
+            }
+            if (s.substring(i, i + 1).matches("\\W")) {
                 j = 0;
             }
         }
-        return sb.toString();
+        return s;
     }
 }
